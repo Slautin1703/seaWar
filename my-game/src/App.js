@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import Cube from "./Cube";
-import Table from "./CubesTable";
+import Cube from "./WarMap/components/Cube";
+import TableContainer from "./WarMap/TableContainer";
 
 function App(props) {
   return (
     <div className="App">
       <header className="App-header">
-        <Table/>
+        <TableContainer/>
     </header>
     </div>
   );
