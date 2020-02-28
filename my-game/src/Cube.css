@@ -1,0 +1,13 @@
+.item {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    border: 2px solid black;
+    background: white;
+}
+
+.sex{
+    display: flex;
+    flex-wrap: wrap;
+    width: 450px;
+}

@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Cube from "./Cube";
+import Table from "./CubesTable";
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <header className="App-header">
-        GErik
+        <Table/>
     </header>
     </div>
   );
