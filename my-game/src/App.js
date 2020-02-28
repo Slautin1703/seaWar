@@ -1,15 +1,16 @@
 import React from 'react';
 import './App.css';
-import Cube from "./WarMap/components/Cube";
 import TableContainer from "./WarMap/TableContainer";
+import Provider from "react-redux/lib/components/Provider";
+import {store} from "./redux/store";
 
-function App(props) {
+const App  = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <TableContainer/>
-    </header>
-    </div>
+          <div className="App">
+              <header className="App-header">
+                  <TableContainer store = {props.store}/>
+              </header>
+          </div>
   );
 }
 
