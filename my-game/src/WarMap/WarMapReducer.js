@@ -5,7 +5,7 @@ import {warMapOnLoad} from "./warMapTypes";
 export const warMapReducer = (state = '' ,action) => {
     switch (action.type) {
         case warMapOnLoad: {
-            return action.payload
+            return {coordinates:action.payload}
         }
         default : return 'hui'
     }

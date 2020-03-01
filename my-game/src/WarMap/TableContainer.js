@@ -14,7 +14,7 @@ const TableContainer = (props) => {
     const warMap = CreateMapMas()
 
     useEffect(() => {
-        setWarMap(warMap)
+        setWarMap({coordinates:warMap})
         dispatch(warMapAction(warMap))
     },[])
         return (

@@ -4,11 +4,11 @@ import TableContainer from "./WarMap/TableContainer";
 import Provider from "react-redux/lib/components/Provider";
 import {store} from "./redux/store";
 
-const App  = (props) => {
+const App  = () => {
   return (
           <div className="App">
               <header className="App-header">
-                  <TableContainer store = {props.store}/>
+                  <TableContainer/>
               </header>
           </div>
   );
