@@ -13,6 +13,10 @@ const TableContainer = (props) => {
 
     const warMap = CreateMapMas()
 
+    const onClick = (event) => {
+        console.log(event)
+    }
+
     fetch('http://localhost:3030/warMap')
         .then(response => response.json())
         .then(data => console.log(data));
@@ -22,7 +26,7 @@ const TableContainer = (props) => {
     },[])
         return (
             <div>
-                <Table warMap = {warMaps} />
+                <Table warMap = {warMaps} onClick ={onClick} />
             </div>
             )
 }

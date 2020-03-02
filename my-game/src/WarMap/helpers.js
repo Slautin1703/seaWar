@@ -1,7 +1,7 @@
 export const CreateMapMas = () => {
     let position = {
-        x: 1,
-        y: 1
+        x: 0,
+        y: 0
     }
     let mas = []
     for (let i = 0; i < 10; i++) {
@@ -12,7 +12,7 @@ export const CreateMapMas = () => {
             position.x = position.x + 1
         }
         position.y = position.y + 1
-        position.x = 1
+        position.x = 0
     }
     return mas
 }
