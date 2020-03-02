@@ -13,6 +13,9 @@ const TableContainer = (props) => {
 
     const warMap = CreateMapMas()
 
+    fetch('http://localhost:3030/warMap')
+        .then(response => response.json())
+        .then(data => console.log(data));
     useEffect(() => {
         setWarMap({coordinates:warMap})
         dispatch(warMapAction(warMap))
