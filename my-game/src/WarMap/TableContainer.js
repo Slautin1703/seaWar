@@ -1,17 +1,25 @@
-import React, {useEffect} from 'react';
-import Cube from "./components/Cube";
+import React, {useEffect, useState} from 'react';
 import '../Cube.css';
 import Table from "./components/WarMap";
 import {CreateMapMas} from "./helpers";
+import {useDispatch} from "react-redux";
+import {warMapAction} from "./warMapActions";
 
 
 
-const TableContainer = () => {
+const TableContainer = (props) => {
+    const [warMaps,setWarMap] = useState(null)
+    const dispatch = useDispatch()
+
     const warMap = CreateMapMas()
 
+    useEffect(() => {
+        setWarMap({coordinates:warMap})
+        dispatch(warMapAction(warMap))
+    },[])
         return (
             <div>
-                <Table warMap ={warMap}/>
+                <Table warMap = {warMaps} />
             </div>
             )
 }
