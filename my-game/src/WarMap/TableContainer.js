@@ -4,6 +4,8 @@ import Table from "./components/WarMap";
 import {CreateMapMas} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
+import {warMapReducer} from "./WarMapReducer";
+import {getWarMap} from "./wapMapAPI";
 
 
 
@@ -16,11 +18,8 @@ const TableContainer = (props) => {
     const onClick = (event) => {
         console.log(event)
     }
-
-    fetch('http://localhost:3030/warMap')
-        .then(response => response.json())
-        .then(data => console.log(data));
     useEffect(() => {
+        getWarMap()
         setWarMap({coordinates:warMap})
         dispatch(warMapAction(warMap))
     },[])
