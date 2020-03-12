@@ -4,25 +4,6 @@ import Table from "./components/WarMap";
 import {CreateMapMas} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
-import ShipBox from "./components/ShipItems/ShipBox";
-
-
-const ships = [
-    [{}, {}, {}, {}],
-    [{}, {}, {}],
-    [{}, {}, {}],
-    [{}, {}],
-    [{}, {}],
-    [{}, {}],
-    [{}],
-    [{}],
-    [{}],
-    [{}],
-]
-
-
-
-
 
 
 
@@ -32,6 +13,9 @@ const TableContainer = (props) => {
 
     const warMap = CreateMapMas()
 
+    const onClick = (event) => {
+        console.log(event)
+    }
 
     fetch('http://localhost:3030/warMap')
         .then(response => response.json())
@@ -42,8 +26,7 @@ const TableContainer = (props) => {
     },[])
         return (
             <div>
-                <Table warMap = {warMaps} c onClick = {props.onClick}/>
-                <ShipBox ships = {ships} />
+                <Table warMap = {warMaps} onClick ={onClick} />
             </div>
             )
 }
