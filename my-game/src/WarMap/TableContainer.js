@@ -4,13 +4,27 @@ import Table from "./components/WarMap";
 import {CreateMapMas} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
+import ShipBox from "./components/ShipItems/ShipBox";
 
 
 
 const TableContainer = (props) => {
     const [warMaps,setWarMap] = useState(null)
     const dispatch = useDispatch()
+    const ships = [
+        [{},{},{},{}],
+        [{},{},{}],
+        [{},{},{}],
+        [{},{}],
+        [{},{}],
+        [{},{}],
+        [{}],
+        [{}],
+        [{}],
+        [{}],
 
+
+    ]
     const warMap = CreateMapMas()
 
     const onClick = (event) => {
@@ -27,6 +41,7 @@ const TableContainer = (props) => {
         return (
             <div>
                 <Table warMap = {warMaps} onClick ={onClick} />
+                <ShipBox ships={ships} />
             </div>
             )
 }
