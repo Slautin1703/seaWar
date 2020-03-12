@@ -5,6 +5,7 @@ import {CreateMapMas} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
 import ShipBox from "./components/ShipItems/ShipBox";
+import {Droppable} from "react-drag-and-drop";
 
 
 
@@ -26,21 +27,21 @@ const TableContainer = (props) => {
 
     ]
     const warMap = CreateMapMas()
+    const onDrop = () => {
+        console.log('hui')
+    }
 
     const onClick = (event) => {
         console.log(event)
     }
 
-    fetch('http://localhost:3030/warMap')
-        .then(response => response.json())
-        .then(data => console.log(data));
     useEffect(() => {
         setWarMap({coordinates:warMap})
         dispatch(warMapAction(warMap))
     },[])
         return (
             <div>
-                <Table warMap = {warMaps} onClick ={onClick} />
+                <Table  onDrop = {onDrop} warMap = {warMaps} onClick ={onClick} />
                 <ShipBox ships={ships} />
             </div>
             )

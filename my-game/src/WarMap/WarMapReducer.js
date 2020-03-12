@@ -6,7 +6,7 @@ import {getWarMap} from "./wapMapAPI";
 export const warMapReducer = (state = '' ,action) => {
     switch (action.type) {
         case warMapOnLoad: {
-            getWarMap()
+            // getWarMap()
             return {coordinates:action.payload}
         }
         default : return 'hui'
