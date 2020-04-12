@@ -1,10 +1,13 @@
 .ShipItem {
     width: 32px;
     height: 32px;
-    border-top: 2px solid #00f;
     border-left: 2px solid #00f;
     border-right: 2px solid #00f;
     background: rgba(0,0,255,.05);
+    cursor: grab;
+}
+.ShipItem:first-child {
+    border-top: 2px solid #00f;
 }
 .ShipItem:last-child{
     border-bottom: 2px solid #00f;

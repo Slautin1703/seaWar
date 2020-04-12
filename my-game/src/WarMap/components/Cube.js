@@ -1,6 +1,5 @@
 import React from 'react';
 import '../../Cube.css';
-import {Droppable} from "react-drag-and-drop";
 
 
 
@@ -10,7 +9,7 @@ const Cube = ({tag, x, y, onClick, onDrop}) => {
         let text = onClick({key: tag, x, y})
     }
 
-    return <Droppable
+    return <div
         className= {y === 10 ? "itemBottom" : "item"}
         onDrop = {onDrop}
         style = {
@@ -19,7 +18,7 @@ const Cube = ({tag, x, y, onClick, onDrop}) => {
         }: {borderLeft: "0px"}
         }
         onClick={CurrentCoordinate} >
-    </Droppable>
+    </div>
 }
 
 export default Cube
