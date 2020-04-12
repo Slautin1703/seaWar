@@ -1,13 +1,40 @@
 .item {
     display: flex;
-    width: 40px;
-    height: 40px;
-    border: 2px solid black;
+    width: 32px;
+    height: 32px;
+    border-top: 1px solid #aabdff;
+    border-right: 1px solid #aabdff;
     background: white;
+}
+.itemBottom {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    border-top: 1px solid #aabdff;
+    border-right: 1px solid #aabdff;
+    border-bottom: 1px solid #aabdff;
+    background: white;
+}
+
+.item:last-child{
+    border-right:1px solid #aabdff;
 }
 
 .sex{
     display: flex;
     flex-wrap: wrap;
-    width: 440px;
+    width: 340px;
+    margin: auto;
+}
+
+.ShipBox {
+    display: flex;
+    margin-top: 100px;
+    flex-wrap: wrap;
+}
+.ShipContainer:first-child  {
+    margin-left: auto;
+}
+.ShipContainer:last-child   {
+    margin-right: auto;
 }

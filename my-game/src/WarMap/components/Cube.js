@@ -4,14 +4,20 @@ import {Droppable} from "react-drag-and-drop";
 
 
 
-const Cube = (props) => {
+const Cube = ({tag, x, y, onClick, onDrop}) => {
+
     let CurrentCoordinate = () => {
-        let text = props.onClick({key: props.tag, x: props.x, y: props.y})
+        let text = onClick({key: tag, x, y})
     }
 
     return <Droppable
-        className='item'
-        onDrop = {props.onDrop}
+        className= {y === 10 ? "itemBottom" : "item"}
+        onDrop = {onDrop}
+        style = {
+            x === 1 ?{
+            borderLeft:"1px solid #aabdff"
+        }: {borderLeft: "0px"}
+        }
         onClick={CurrentCoordinate} >
     </Droppable>
 }
