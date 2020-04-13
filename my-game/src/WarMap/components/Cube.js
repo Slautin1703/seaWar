@@ -6,10 +6,12 @@ import {ItemTypes} from "../constants";
 
 
 
-const Cube = ({tag, x, y, onClick,dropShip,isShip,children}) => {
+const Cube = ({tag, x, y, onClick,dropShip,isShip,nextCubeIsShip,canMoveShip,children}) => {
 
-    const [{ isOver,item }, drop] = useDrop({
+
+    const [{ isOver,item,canDrop }, drop] = useDrop({
         accept: ItemTypes.SHIP,
+        canDrop: () => canMoveShip(x,y,item.length),
         drop: () => {
             dropShip( {x,y,itemLength: item.length})
         },
@@ -17,9 +19,12 @@ const Cube = ({tag, x, y, onClick,dropShip,isShip,children}) => {
             return ({
             isOver: !!monitor.isOver(),
             item: monitor.getItem()!== null
-                ?   monitor.getItem() : ''
+                ?   monitor.getItem() : '',
+            canDrop: monitor.canDrop()
         })},
     });
+
+
     useEffect(() => {
 
     },[children])
@@ -28,17 +33,27 @@ const Cube = ({tag, x, y, onClick,dropShip,isShip,children}) => {
         className= {y === 10 ? "itemBottom" : "item"}
         ref = {drop}
         style = {
-            isShip ? {
+            canDrop && isOver ? {
+                background: 'green'
+                } :
+                isOver && !canDrop ? {
+                background: 'red'
+                    } :
+            isShip && x === 1 ? {
+                    borderLeft:"1px solid #aabdff",
                     backgroundColor: 'rgba(0,0,255,.05)',
-                }:
-            x === 1 ?{
+                } :
+                isShip ? {
+                        backgroundColor: 'rgba(0,0,255,.05)',
+                    } :
+            x === 1 ? {
             borderLeft:"1px solid #aabdff"
         }: {borderLeft: "0px"}
         }
         onClick={() => {
             onClick({key: tag, x, y,isShip})}
         }>
-        {children}
+        {nextCubeIsShip ? <span class = "z"></span> : ''}
     </div>
 }
 

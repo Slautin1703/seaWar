@@ -3,6 +3,7 @@ export const CreateMapMas = () => {
         x: 1,
         y: 1,
         isShip: false,
+        nextCubeIsShip: false,
     }
     let mas = []
     for (let i = 1; i < 11; i++) {
@@ -18,6 +19,23 @@ export const CreateMapMas = () => {
     return mas
 };
 
+export const getCubeAround = ({warMaps,x, y}) => {
+    const dropEl = warMaps.coordinates.find(el => el.x === x && el.y === y);
+    const nextEl = warMaps.coordinates.find(el => el.x === x + 1 && el.y === y);
+    const topEl = warMaps.coordinates.find(el => el.x === x && el.y === y - 1);
+    const botEl = warMaps.coordinates.find(el => el.x === x && el.y === y + 1);
+    const prevEl = warMaps.coordinates.find(el => el.x === x - 1  && el.y === y);
+    const rightBottom = warMaps.coordinates.find(el => el.x === x + 1  && el.y === y + 1);
+    const leftBottom = warMaps.coordinates.find(el => el.x === x - 1  && el.y === y + 1);
+    const rightTop = warMaps.coordinates.find(el => el.x === x + 1  && el.y === y - 1);
+    const leftTop = warMaps.coordinates.find(el => el.x === x - 1  && el.y === y - 1);
+
+
+    return { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop }
+};
+
+
 export const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 };
+

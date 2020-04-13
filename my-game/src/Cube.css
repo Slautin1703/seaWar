@@ -1,12 +1,27 @@
 .item {
     display: flex;
+    position: relative;
     width: 32px;
     height: 32px;
     border-top: 1px solid #aabdff;
     border-right: 1px solid #aabdff;
     background: white;
+    text-align: center;
+}
+.z {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 4px;
+    width: 4px;
+    background: #333;
+    border-radius: 50%;
+    margin-top: -2px;
+    margin-left: -2px;
 }
 .itemBottom {
+    position: relative;
+    text-align: center;
     display: flex;
     width: 32px;
     height: 32px;

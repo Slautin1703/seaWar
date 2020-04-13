@@ -3,7 +3,7 @@ import Cube from "./Cube";
 import {getRandomInt} from "../helpers";
 import ShipItem from "./ShipItems/ShipItem";
 
-const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,dropShip}) => {
+const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,canMoveShip,dropShip}) => {
 
 
     const [field, setField ] = useState([]);
@@ -20,10 +20,11 @@ const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,dropShip}) => 
 
     useEffect(() => {
         if (warMap){
-            setField(warMap.coordinates.map( e =>  <Cube dropShip = {dropShip} tag = {getRandomInt(100)} isShip = {e.isShip} x = {e.x} y = {e.y}
+            setField(warMap.coordinates.map( e =>  <Cube canMoveShip = {canMoveShip} dropShip = {dropShip} tag = {getRandomInt(100)}
+                                                         nextCubeIsShip = {e.nextCubeIsShip}
+                                                         isShip = {e.isShip} x = {e.x} y = {e.y}
                                                          onClick = {onClick}> {renderShip(e.x, e.y)} </Cube> ))
         }
-
     },[warMap,shipX,shipY]);
 
         return (
