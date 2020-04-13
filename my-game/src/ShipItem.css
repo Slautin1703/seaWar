@@ -1,10 +1,9 @@
 .ShipItem {
-    width: 32px;
-    height: 32px;
+    width: 29px;
+    height: 31px;
     border-left: 2px solid #00f;
     border-right: 2px solid #00f;
     background: rgba(0,0,255,.05);
-    cursor: grab;
 }
 .ShipItem:first-child {
     border-top: 2px solid #00f;
@@ -13,6 +12,6 @@
     border-bottom: 2px solid #00f;
 }
 .ShipContainer {
-    padding: 0 20px 0 0;
+    margin-right: 20px;
     height: 100%;
 }

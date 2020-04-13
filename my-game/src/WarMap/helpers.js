@@ -1,7 +1,8 @@
 export const CreateMapMas = () => {
     let position = {
         x: 1,
-        y: 1
+        y: 1,
+        isShip: false,
     }
     let mas = []
     for (let i = 1; i < 11; i++) {
@@ -15,4 +16,8 @@ export const CreateMapMas = () => {
         position.x = 1
     }
     return mas
-}
+};
+
+export const getRandomInt = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
+};

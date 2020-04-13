@@ -1,13 +1,31 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Cube from "./Cube";
-import {Droppable} from "react-drag-and-drop";
+import {getRandomInt} from "../helpers";
+import ShipItem from "./ShipItems/ShipItem";
 
-const Table = ({onDrop,warMap,onClick,isYour}) => {
-    const getRandomInt = (max) => {
-        return Math.floor(Math.random() * Math.floor(max));
+const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,dropShip}) => {
+
+
+    const [field, setField ] = useState([]);
+
+    const renderShip = (x , y) => {
+
+        if ((x && y) !== null) {
+            const isShipHere = (x === shipX && y === shipY) || x === shipX && y === shipY;
+            return isShipHere ? <ShipItem shipCubes = {[{},{}]} /> : null;
+        } else {
+            return null
+        }
     }
-    let field = warMap?.coordinates .map( e =>  <Cube tag = {getRandomInt(100)} x = {e.x} y = {e.y}
-                                                      onClick = {onClick} onDrop = {onDrop} /> )
+
+    useEffect(() => {
+        if (warMap){
+            setField(warMap.coordinates.map( e =>  <Cube dropShip = {dropShip} tag = {getRandomInt(100)} isShip = {e.isShip} x = {e.x} y = {e.y}
+                                                         onClick = {onClick}> {renderShip(e.x, e.y)} </Cube> ))
+        }
+
+    },[warMap,shipX,shipY]);
+
         return (
                 <div className="sex">
                     {field}

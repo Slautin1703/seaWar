@@ -1,4 +1,4 @@
-import React from "react";
+
 import {combineReducers, compose, createStore} from "redux";
 import {warMapReducer} from "../WarMap/WarMapReducer";
 
@@ -7,9 +7,6 @@ export const onClick = (props) => {
     console.log(sex)
 }
 
-const initialState = {
-    state: [],
-}
 const rootReducer = combineReducers({
         warMap: warMapReducer,
     }
