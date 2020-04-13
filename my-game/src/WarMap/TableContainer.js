@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../Cube.css';
 import Table from "./components/WarMap";
-import {CreateMapMas, getCubeAround} from "./helpers";
+import {CreateMapMas, drawNotValidPoint, getCubeAround} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
 import ShipBox from "./components/ShipItems/ShipBox";
@@ -15,8 +15,6 @@ const TableContainer = (props) => {
     const dispatch = useDispatch();
 
     const [shipPos,setShipPos] = useState([null,null]);
-
-
     const [ships,setShips] = useState([]);
 
 
@@ -45,42 +43,25 @@ const TableContainer = (props) => {
     };
 
 
+
     const dropShip = ( {x, y, itemLength} ) => {
-         // setShipPos ([x,y]);
+        // setShipPos ([x,y]);
         let dropIsValid = true;
         for (let i = 0; i <= itemLength - 1; i++) {
             const { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop } = getCubeAround({warMaps,x, y})
             if (i === 0 ) {
                 if (itemLength === 1) {
-                    if (nextEl)nextEl.nextCubeIsShip = true;
-                    if (topEl) topEl.nextCubeIsShip =true;
-                    if (prevEl) prevEl.nextCubeIsShip = true;
-                    if (rightTop) rightTop.nextCubeIsShip = true;
-                    if (leftTop) leftTop.nextCubeIsShip = true;
-                    if (botEl)botEl.nextCubeIsShip = true
-                    if (rightBottom)rightBottom.nextCubeIsShip = true
-                    if (leftBottom) leftBottom.nextCubeIsShip = true
-                    dropIsValid = true
+                    drawNotValidPoint([nextEl,topEl,prevEl,rightTop,leftTop,botEl,rightBottom,leftBottom])
                     dropEl.isShip = true;
                 } else {
-                    if (nextEl)nextEl.nextCubeIsShip = true;
-                    if (topEl) topEl.nextCubeIsShip =true;
-                    if (prevEl) prevEl.nextCubeIsShip = true;
-                    if (rightTop) rightTop.nextCubeIsShip = true;
-                    if (leftTop) leftTop.nextCubeIsShip = true;
-                    dropIsValid = true
+                    drawNotValidPoint([nextEl,topEl,prevEl,rightTop,leftTop])
                     dropEl.isShip = true;
                 }
-            } else if (i !== 0 && i !== itemLength-1) {
-                if (prevEl) prevEl.nextCubeIsShip = true
-                if (nextEl)nextEl.nextCubeIsShip = true
+            } else if (i !== 0 && i !== itemLength - 1) {
+                drawNotValidPoint([nextEl,prevEl])
                 dropEl.isShip = true;
             } else {
-                if (nextEl)nextEl.nextCubeIsShip = true
-                if (prevEl) prevEl.nextCubeIsShip = true
-                if (botEl)botEl.nextCubeIsShip = true
-                if (rightBottom)rightBottom.nextCubeIsShip = true
-                if (leftBottom) leftBottom.nextCubeIsShip = true
+                drawNotValidPoint([nextEl,prevEl,botEl,rightBottom,leftBottom])
                 dropEl.isShip = true;
             }
                 y++;

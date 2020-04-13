@@ -30,12 +30,19 @@ export const getCubeAround = ({warMaps,x, y}) => {
     const rightTop = warMaps.coordinates.find(el => el.x === x + 1  && el.y === y - 1);
     const leftTop = warMaps.coordinates.find(el => el.x === x - 1  && el.y === y - 1);
 
-
     return { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop }
 };
 
 
 export const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
+};
+
+export const drawNotValidPoint = (elements) => {
+    elements.forEach(el => {
+        if (el) {
+            el.nextCubeIsShip = true
+        }
+    })
 };
 
