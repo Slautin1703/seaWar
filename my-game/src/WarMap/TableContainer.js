@@ -16,6 +16,9 @@ const TableContainer = (props) => {
     const [shipPos,setShipPos] = useState([null,null]);
     const [ships,setShips] = useState([]);
 
+    const [wasDropped,setWasDropped] = useState(false)
+    const [dropItemLength,setDropItemLength] = useState(null)
+
 
     const onClick = (event) => {
         const lol = warMaps.coordinates.find(el => el.x === event.x && el.y === event.y+1);
@@ -33,6 +36,8 @@ const TableContainer = (props) => {
     };
 
     const canMoveShip = (x , y, itemLength) => {
+        const topItemValidate = warMaps.coordinates.find(el => el.x === x && el.y - itemLength + 1 === y && el.nextCubeIsShip);
+        if (topItemValidate) return false
         if (y + itemLength - 1 > 10) {
             return false
         }
@@ -41,40 +46,44 @@ const TableContainer = (props) => {
         return canDrop
     };
 
+    useEffect(() =>{
+        if (wasDropped) {
+            const elIndex = ships.findIndex(el => el.length === dropItemLength);
+            ships[elIndex] = []
+            setShips(ships)
+            if (warMaps) setWarMap({coordinates: warMaps.coordinates})
+        }
+    },[wasDropped]);
 
 
+//Да, тут пиздец
     const dropShip = ( {x, y, itemLength} ) => {
         // setShipPos ([x,y]);
-        let wasDropped = false;
+        setWasDropped(false)
+        setDropItemLength(itemLength)
         for (let i = 0; i <= itemLength - 1; i++) {
             const { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop } = getCubeAround({warMaps,x, y})
             if (i === 0 ) {
+                // Если корабль состоит из 1 клетки - поля вокруг него заполняются сразу,
+                // если нет, то вокруг клетки нужно заполнить только то, что в обратном условии
                 if (itemLength === 1) {
                     drawNotValidPoint([nextEl,topEl,prevEl,rightTop,leftTop,botEl,rightBottom,leftBottom])
                     dropEl.isShip = true;
-                    wasDropped = true
-
+                    setWasDropped(true)
                 } else {
                     drawNotValidPoint([nextEl,topEl,prevEl,rightTop,leftTop])
                     dropEl.isShip = true;
                 }
-            } else if (i !== 0 && i !== itemLength - 1) {
+                // Нужно для заполнения полей вокруг кораблей размером 3 плюс
+            } else if (i !== itemLength - 1) {
                 drawNotValidPoint([nextEl,prevEl])
                 dropEl.isShip = true;
             } else {
-                wasDropped = true
+                setWasDropped(true)
                 drawNotValidPoint([nextEl,prevEl,botEl,rightBottom,leftBottom])
                 dropEl.isShip = true;
             }
                 y++;
-        }
-        if (wasDropped) {
-            const elIndex = ships.findIndex(el => el.length === itemLength);
-            ships[elIndex] = []
-            setShips(ships)
-            setWarMap({coordinates: warMaps.coordinates})
-        } else {
-            alert(1)
         }
 
 
