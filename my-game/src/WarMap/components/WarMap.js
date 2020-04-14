@@ -11,7 +11,7 @@ const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,canMoveShip,dr
     const renderShip = (x , y) => {
 
         if ((x && y) !== null) {
-            const isShipHere = (x === shipX && y === shipY) || x === shipX && y === shipY;
+            const isShipHere = (x === shipX && y === shipY) || (x === shipX && y === shipY);
             return isShipHere ? <ShipItem shipCubes = {[{},{}]} /> : null;
         } else {
             return null

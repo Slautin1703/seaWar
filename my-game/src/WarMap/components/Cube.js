@@ -54,7 +54,7 @@ const Cube = ({tag, x, y, onClick,dropShip,isShip,nextCubeIsShip,canMoveShip,chi
             onClick({key: tag, x, y,isShip})}
         }>
         {/*{children}*/}
-        {nextCubeIsShip ? <span class = "z"></span> : ''}
+        {nextCubeIsShip ? <span className = "z"></span> : ''}
     </div>
 }
 

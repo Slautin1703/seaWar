@@ -5,7 +5,6 @@ import {CreateMapMas, drawNotValidPoint, getCubeAround} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
 import ShipBox from "./components/ShipItems/ShipBox";
-import ShipItem from "./components/ShipItems/ShipItem";
 
 
 
@@ -46,13 +45,15 @@ const TableContainer = (props) => {
 
     const dropShip = ( {x, y, itemLength} ) => {
         // setShipPos ([x,y]);
-        let dropIsValid = true;
+        let wasDropped = false;
         for (let i = 0; i <= itemLength - 1; i++) {
             const { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop } = getCubeAround({warMaps,x, y})
             if (i === 0 ) {
                 if (itemLength === 1) {
                     drawNotValidPoint([nextEl,topEl,prevEl,rightTop,leftTop,botEl,rightBottom,leftBottom])
                     dropEl.isShip = true;
+                    wasDropped = true
+
                 } else {
                     drawNotValidPoint([nextEl,topEl,prevEl,rightTop,leftTop])
                     dropEl.isShip = true;
@@ -61,12 +62,13 @@ const TableContainer = (props) => {
                 drawNotValidPoint([nextEl,prevEl])
                 dropEl.isShip = true;
             } else {
+                wasDropped = true
                 drawNotValidPoint([nextEl,prevEl,botEl,rightBottom,leftBottom])
                 dropEl.isShip = true;
             }
                 y++;
         }
-        if (dropIsValid) {
+        if (wasDropped) {
             const elIndex = ships.findIndex(el => el.length === itemLength);
             ships[elIndex] = []
             setShips(ships)

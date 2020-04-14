@@ -5,7 +5,7 @@ import ShipItem from "./ShipItem";
 
 const ShipBox = ({ships}) => {
 
-    const shipsMas = ships.map(e =>  <ShipItem shipCubes = {e} data = "hui" />);
+    const shipsMas = ships.map(e =>  <ShipItem key = {Math.random()} shipCubes = {e} data = "hui" />);
         return (
             <div className='ShipBox'>
               {shipsMas}
