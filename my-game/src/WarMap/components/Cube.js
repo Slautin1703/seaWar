@@ -6,7 +6,7 @@ import {ItemTypes} from "../constants";
 
 
 
-const Cube = ({tag, x, y, onClick,dropShip,isShip,nextCubeIsShip,canMoveShip,children}) => {
+const Cube = ({tag, x, y, onClick,dropShip,isShip,canTransfer,nextCubeIsShip,canMoveShip,children}) => {
 
 
     const [{ isOver,item,canDrop }, drop] = useDrop({
@@ -51,7 +51,7 @@ const Cube = ({tag, x, y, onClick,dropShip,isShip,nextCubeIsShip,canMoveShip,chi
         }: {borderLeft: "0px"}
         }
         onClick={() => {
-            onClick({key: tag, x, y,isShip})}
+            onClick({key: tag, x, y,isShip,canTransfer})}
         }>
         {/*{children}*/}
         {nextCubeIsShip ? <span className = "z"></span> : ''}

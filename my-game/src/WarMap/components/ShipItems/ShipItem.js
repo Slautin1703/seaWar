@@ -1,11 +1,13 @@
 import React from 'react';
 import '../../../ShipItem.css';
 import {ShipCoordinates} from "./ShipCoordiantes";
-import {useDrag} from "react-dnd";
+import {useDrag, useDragLayer} from "react-dnd";
 import {ItemTypes} from "../../constants";
 
 
 const ShipItem = ({shipCubes}) => {
+
+
     const [{ isDragging }, drag] = useDrag({
         item: { type: ItemTypes.SHIP, length: shipCubes.length },
         collect: monitor => {
@@ -14,9 +16,8 @@ const ShipItem = ({shipCubes}) => {
         })},
     });
 
-
-
     const shipCube = shipCubes.map(e => <ShipCoordinates key = {Math.random()} />);
+
     return (
         <div className='ShipContainer'
              ref = {drag}

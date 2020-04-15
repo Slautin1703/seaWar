@@ -22,6 +22,7 @@ const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,canMoveShip,dr
         if (warMap){
             setField(warMap.coordinates.map( e =>  <Cube canMoveShip = {canMoveShip} dropShip = {dropShip} tag = {getRandomInt(100)}
                                                          nextCubeIsShip = {e.nextCubeIsShip}
+                                                         canTransfer = {e.canTransfer}
                                                          isShip = {e.isShip} x = {e.x} y = {e.y}
                                                          onClick = {onClick}> {renderShip(e.x, e.y)} </Cube> ))
         }

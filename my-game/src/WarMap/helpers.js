@@ -4,6 +4,7 @@ export const CreateMapMas = () => {
         y: 1,
         isShip: false,
         nextCubeIsShip: false,
+        canTransfer: false
     }
     let mas = []
     for (let i = 1; i < 11; i++) {
@@ -38,11 +39,22 @@ export const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
-export const drawNotValidPoint = (elements) => {
-    elements.forEach(el => {
-        if (el) {
-            el.nextCubeIsShip = true
+export const drawNotValidPoint = ({warMaps}) => {
+    warMaps.coordinates.forEach(el => {
+            const { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop } = getCubeAround({warMaps,x:el.x, y:el.y});
+            if (dropEl.isShip) {
+                if (nextEl && !nextEl.isShip) nextEl.nextCubeIsShip = true;
+                if (botEl && !botEl.isShip) botEl.nextCubeIsShip = true;
+                if (topEl && !topEl.isShip) topEl.nextCubeIsShip = true;
+                if (prevEl && !prevEl.isShip) prevEl.nextCubeIsShip = true;
+                if (rightBottom && !rightBottom.isShip) rightBottom.nextCubeIsShip = true;
+                if (leftBottom && !leftBottom.isShip) leftBottom.nextCubeIsShip = true;
+                if (rightTop && !rightTop.isShip) rightTop.nextCubeIsShip = true;
+                if (leftTop && !leftTop.isShip) leftTop.nextCubeIsShip = true;
+
+
+            }
         }
-    })
+    );
 };
 
