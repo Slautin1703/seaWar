@@ -22,34 +22,73 @@ const TableContainer = (props) => {
 
 
     const onClick = (e) => {
-
-        warMaps.coordinates.forEach(el => {
-            el.nextCubeIsShip = false
-        });
-        setWarMap({coordinates: warMaps.coordinates})
-
+        const { dropEl } = getCubeAround({warMaps,x: e.x , y : e.y });
         if (e.canTransfer) {
-            //Получили длину корабля, по которому нажали
-            let itemLength = 0;
-            for (let i = 0; i <= 3; i++) {
-                const transShipElement = warMaps.coordinates.find(el => (el.x === e.x && el.y - i === e.y) && el.isShip);
-                if (transShipElement) {
-                    itemLength++
+            if (!dropEl.isHorizontal) {
+                dropEl.isHorizontal = true
+                //Очищаем старые поля для валидации
+                warMaps.coordinates.forEach(el => {
+                    el.nextCubeIsShip = false
+                });
+
+
+                setWarMap({coordinates: warMaps.coordinates})
+                //Получили длину корабля, по которому нажали
+                let itemLength = 0;
+                for (let i = 0; i <= 3; i++) {
+                    const transShipElement = warMaps.coordinates.find(el => (el.x === e.x && el.y - i === e.y) && el.isShip);
+                    if (transShipElement) {
+                        itemLength++
+                    }
                 }
+
+                for (let i = 0; i < itemLength - 1 ; i++) {
+                    const { botEl } = getCubeAround({warMaps,x: e.x , y :e.y + i});
+                    const { nextEl } = getCubeAround({warMaps,x: e.x + i , y :e.y });
+                    nextEl.isShip = true
+                    botEl.isShip = false
+                }
+
+                //Поставили новые поля для валидации
+                drawNotValidPoint({warMaps})
+
+                setWarMap({coordinates: warMaps.coordinates});
+            } else {
+
+
+
+
+
+                dropEl.isHorizontal = false;
+
+                warMaps.coordinates.forEach(el => {
+                    el.nextCubeIsShip = false
+                });
+
+                setWarMap({coordinates: warMaps.coordinates});
+
+                //Получили длину корабля, по которому нажали
+                let itemLength = 0;
+                for (let i = 0; i <= 3; i++) {
+                    const transShipElement = warMaps.coordinates.find(el => (el.x - i === e.x && el.y === e.y) && el.isShip);
+                    if (transShipElement) {
+                        itemLength++
+                    }
+                }
+
+                for (let i = 0; i < itemLength - 1 ; i++) {
+                    const { botEl } = getCubeAround({warMaps,x: e.x , y :e.y + i});
+                    const { nextEl } = getCubeAround({warMaps,x: e.x + i , y :e.y });
+                    nextEl.isShip = false
+                    botEl.isShip = true
+                }
+
+                //Поставили новые поля для валидации
+                drawNotValidPoint({warMaps})
+
+
+                setWarMap({coordinates: warMaps.coordinates});
             }
-            const { dropEl,nextEl,topEl,botEl,prevEl,rightBottom,leftBottom,rightTop,leftTop } = getCubeAround({warMaps,x: e.x , y :e.y});
-
-            nextEl.isShip = true;
-            botEl.isShip = false
-
-
-
-            drawNotValidPoint({warMaps})
-            console.log(dropEl)
-
-            setWarMap({coordinates: warMaps.coordinates});
-
-
         }
     };
 

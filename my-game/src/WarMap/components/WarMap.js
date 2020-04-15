@@ -20,7 +20,7 @@ const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,canMoveShip,dr
 
     useEffect(() => {
         if (warMap){
-            setField(warMap.coordinates.map( e =>  <Cube canMoveShip = {canMoveShip} dropShip = {dropShip} tag = {getRandomInt(100)}
+            setField(warMap.coordinates.map( e =>  <Cube isHorizontal ={e.isHorizontal} canMoveShip = {canMoveShip} dropShip = {dropShip} tag = {getRandomInt(100)}
                                                          nextCubeIsShip = {e.nextCubeIsShip}
                                                          canTransfer = {e.canTransfer}
                                                          isShip = {e.isShip} x = {e.x} y = {e.y}

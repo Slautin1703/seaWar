@@ -4,7 +4,8 @@ export const CreateMapMas = () => {
         y: 1,
         isShip: false,
         nextCubeIsShip: false,
-        canTransfer: false
+        canTransfer: false,
+        isHorizontal: false
     }
     let mas = []
     for (let i = 1; i < 11; i++) {
