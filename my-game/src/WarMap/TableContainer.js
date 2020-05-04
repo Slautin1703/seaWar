@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import '../Cube.css';
 import Table from "./components/WarMap";
-import {CreateMapMas, drawNotValidPoint, getCubeAround} from "./helpers";
+import {clearPointValid, CreateMapMas, drawNotValidPoint, getCubeAround, getShipLength, revertShip} from "./helpers";
 import {useDispatch} from "react-redux";
 import {warMapAction} from "./warMapActions";
 import ShipBox from "./components/ShipItems/ShipBox";
-
+import openSocket from 'socket.io-client';
+//Бой бэк
+// const socket = openSocket('https://sleepy-meadow-54515.herokuapp.com/');
+const socket = openSocket('http://localhost:5000');
 
 
 
@@ -20,82 +23,31 @@ const TableContainer = (props) => {
     const [wasDropped,setWasDropped] = useState(false)
     const [dropItemLength,setDropItemLength] = useState(null)
 
+    const [rivalData, setRivalData] = useState(null)
+
 
     const onClick = (e) => {
         const { dropEl } = getCubeAround({warMaps,x: e.x , y : e.y });
         if (e.canTransfer) {
-            if (!dropEl.isHorizontal) {
-                dropEl.isHorizontal = true
-                //Очищаем старые поля для валидации
-                warMaps.coordinates.forEach(el => {
-                    el.nextCubeIsShip = false
-                });
-
-
-                setWarMap({coordinates: warMaps.coordinates})
-                //Получили длину корабля, по которому нажали
-                let itemLength = 0;
-                for (let i = 0; i <= 3; i++) {
-                    const transShipElement = warMaps.coordinates.find(el => (el.x === e.x && el.y - i === e.y) && el.isShip);
-                    if (transShipElement) {
-                        itemLength++
-                    }
-                }
-
-                for (let i = 0; i < itemLength - 1 ; i++) {
-                    const { botEl } = getCubeAround({warMaps,x: e.x , y :e.y + i});
-                    const { nextEl } = getCubeAround({warMaps,x: e.x + i , y :e.y });
-                    nextEl.isShip = true
-                    botEl.isShip = false
-                }
-
-                //Поставили новые поля для валидации
-                drawNotValidPoint({warMaps})
-
-                setWarMap({coordinates: warMaps.coordinates});
-            } else {
-
-
-
-
-
-                dropEl.isHorizontal = false;
-
-                warMaps.coordinates.forEach(el => {
-                    el.nextCubeIsShip = false
-                });
-
-                setWarMap({coordinates: warMaps.coordinates});
-
-                //Получили длину корабля, по которому нажали
-                let itemLength = 0;
-                for (let i = 0; i <= 3; i++) {
-                    const transShipElement = warMaps.coordinates.find(el => (el.x - i === e.x && el.y === e.y) && el.isShip);
-                    if (transShipElement) {
-                        itemLength++
-                    }
-                }
-
-                for (let i = 0; i < itemLength - 1 ; i++) {
-                    const { botEl } = getCubeAround({warMaps,x: e.x , y :e.y + i});
-                    const { nextEl } = getCubeAround({warMaps,x: e.x + i , y :e.y });
-                    nextEl.isShip = false
-                    botEl.isShip = true
-                }
-
-                //Поставили новые поля для валидации
-                drawNotValidPoint({warMaps})
-
-
-                setWarMap({coordinates: warMaps.coordinates});
-            }
+            clearPointValid({warMaps});
+            dropEl.isHorizontal = !dropEl.isHorizontal;
+            const warMapWithRevertShip = revertShip({warMaps,isHorizontal: dropEl.isHorizontal,x : e.x, y: e.y});
+            drawNotValidPoint({warMaps});
+            setWarMap({coordinates: warMapWithRevertShip.coordinates});
         }
     };
 
+    const onClickOnRivalMap = (e) => {
+        console.log(e)
+    }
+
     const startGame = () => {
-        fetch('http://localhost:5000/')
-            .then(response => response.json())
-            .then(data => console.log(data));
+        if (warMaps) {
+            socket.emit('FIND_RIVAL',warMaps);
+            socket.on('send warMap',data => {
+                setRivalData(data)
+            })
+        }
     };
 
     const canMoveShip = (x , y, itemLength) => {
@@ -113,7 +65,7 @@ const TableContainer = (props) => {
     useEffect(() =>{
         if (wasDropped) {
             const elIndex = ships.findIndex(el => el.length === dropItemLength);
-            ships[elIndex] = []
+            ships.splice(elIndex,1)
             setShips(ships)
             if (warMaps) setWarMap({coordinates: warMaps.coordinates})
         }
@@ -148,6 +100,8 @@ const TableContainer = (props) => {
 
 
     useEffect(() => {
+        socket.on('connection', socket => {
+        })
         setShips([
             [{},{},{},{}],
             [{},{},{}],
@@ -170,8 +124,10 @@ const TableContainer = (props) => {
             <div>
                 <button className={"btn"} onClick={startGame}> Играть </button>
                 <div className= "TableContainer">
-                    <Table canMoveShip = {canMoveShip} shipPosition={shipPos} dropShip = {dropShip} warMap = {warMaps} onClick ={onClick} isYour = {true} />
-                    {/*<Table dropShip = {dropShip} warMap = {warMaps} onClick ={onClick} />*/}
+                    <Table  canMoveShip = {canMoveShip} shipPosition={shipPos} dropShip = {dropShip} warMap = {warMaps} onClick ={onClick} isYour = {true} />
+                    { rivalData ?
+                        <Table onClickOnRivalMap = {onClickOnRivalMap}  dropShip = {dropShip} warMap = {rivalData} onClick ={onClick} /> : 'Соперник пока не найден'
+                    }
                 </div>
                 <ShipBox ships={ships} />
             </div>

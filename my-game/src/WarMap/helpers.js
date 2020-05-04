@@ -1,3 +1,5 @@
+
+
 export const CreateMapMas = () => {
     let position = {
         x: 1,
@@ -57,5 +59,39 @@ export const drawNotValidPoint = ({warMaps}) => {
             }
         }
     );
+};
+
+export const clearPointValid = ({warMaps}) => {
+    warMaps.coordinates.forEach(el => {
+        el.nextCubeIsShip = false
+    });
+    return warMaps
+};
+
+export const getShipLength = ({warMaps,x,y,isHorizontal}) => {
+    let itemLength = 0;
+        for (let i = 0; i <= 3; i++) {
+            let transShipElement = null;
+                if (isHorizontal) {
+                    transShipElement = warMaps.coordinates.find(el => (el.x ===  x &&  el.y - i  === y) && el.isShip);
+                } else {
+                    transShipElement = warMaps.coordinates.find(el => (el.x - i === x && el.y === y) && el.isShip);
+                }
+            if (transShipElement) {
+                itemLength++
+            }
+        }
+    return itemLength
+};
+
+export const revertShip = ({warMaps,isHorizontal, x , y }) => {
+    const itemLength = getShipLength({warMaps,x, y, isHorizontal});
+    for (let i = 0; i < itemLength - 1 ; i++) {
+        const { botEl } = getCubeAround({warMaps,x: x , y : y + i});
+        const { nextEl } = getCubeAround({warMaps,x: x + i , y : y });
+        nextEl.isShip = isHorizontal
+        botEl.isShip = !isHorizontal
+    }
+    return warMaps
 };
 

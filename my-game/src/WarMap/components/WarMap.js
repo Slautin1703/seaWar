@@ -1,32 +1,32 @@
 import React, {useEffect, useState} from "react";
 import Cube from "./Cube";
 import {getRandomInt} from "../helpers";
-import ShipItem from "./ShipItems/ShipItem";
-
-const Table = ({warMap,shipPosition: [shipX,shipY],onClick,isYour,canMoveShip,dropShip}) => {
+import {useSelector} from "react-redux";
 
 
+const Table = ({warMap,onClick,onClickOnRivalMap,isYour,canMoveShip,dropShip}) => {
+    // const warMap = useSelector(state => state.warMap.coordinates)
+    // console.log(warMap)
     const [field, setField ] = useState([]);
 
-    const renderShip = (x , y) => {
-
-        if ((x && y) !== null) {
-            const isShipHere = (x === shipX && y === shipY) || (x === shipX && y === shipY);
-            return isShipHere ? <ShipItem shipCubes = {[{},{}]} /> : null;
-        } else {
-            return null
-        }
-    }
 
     useEffect(() => {
-        if (warMap){
-            setField(warMap.coordinates.map( e =>  <Cube isHorizontal ={e.isHorizontal} canMoveShip = {canMoveShip} dropShip = {dropShip} tag = {getRandomInt(100)}
+        if (warMap && isYour){
+            setField(warMap.coordinates.map( e =>  <Cube  isHorizontal ={e.isHorizontal}
+                                                         canMoveShip = {canMoveShip ? canMoveShip : () => false}
+                                                         dropShip = {dropShip}
+                                                         tag = {getRandomInt(100)}
                                                          nextCubeIsShip = {e.nextCubeIsShip}
                                                          canTransfer = {e.canTransfer}
                                                          isShip = {e.isShip} x = {e.x} y = {e.y}
-                                                         onClick = {onClick}> {renderShip(e.x, e.y)} </Cube> ))
+                                                         onClick = {onClick}> </Cube> ))
+        } else if (warMap && !isYour) {
+            setField(warMap.coordinates.map( e =>  <Cube  tag = {getRandomInt(100)}
+                                                          nextCubeIsShip = {e.nextCubeIsShip}
+                                                          isShip = {e.isShip} x = {e.x} y = {e.y}
+                                                          onClick = {onClickOnRivalMap}> </Cube> ))
         }
-    },[warMap,shipX,shipY]);
+    },[warMap]);
 
         return (
                 <div className="sex">
